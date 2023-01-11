@@ -13,6 +13,9 @@ let getHome = (req, res) => {
 };
 
 let postBot = async (req, res) => {
+  console.log(req.body);
+  console.log("\n\n");
+  
   const update_id = req.body.update_id;
 
   const chatId = req.body.message.chat.id;
@@ -36,15 +39,28 @@ let postBot = async (req, res) => {
     return res.send();
   } else if (["/start", "/Start", "/hello", "/Hello"].includes(text)) {
     let str = `Chào bạn. Gõ /help để được hỗ trợ.`;
-    _ = await sendMessage(chatId, str);
-    return res.send();
+    // _ = await sendMessage(chatId, str);
+    // return res.send();
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: str,
+      });
+      return res.send()
   } else if (["/help", "/Help"].includes(text)) {
     let str = `Hôm nay trời thật đẹp.`;
-    _ = await sendMessage(chatId, str);
+    //_ = await sendMessage(chatId, str);
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: str,
+      });
     return res.send();
   } else {
     let str = `Nhấn /start để khởi động.\nNhấn /help để được trợ giúp.`;
-    _ = await sendMessage(chatId, str);
+    //_ = await sendMessage(chatId, str);
+    await axios.post(`${TELEGRAM_API}/sendMessage`, {
+        chat_id: chatId,
+        text: str,
+      });
     return res.send();
   }
 };
