@@ -17,7 +17,13 @@ initWebRoute(app);
 
 let port = process.env.PORT || 5004;
 
+const { TOKEN } = process.env;
+const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+const init = async () => {
+   const res = await axios.get(`${TELEGRAM_API}/setWebhook?url=${WEBHOOK_URL}`);
+ };
 
-app.listen(port, ()=>{
+app.listen(port, async ()=>{
    console.log(`App is running at the port ${port}`) ;
+   await init();
 });
